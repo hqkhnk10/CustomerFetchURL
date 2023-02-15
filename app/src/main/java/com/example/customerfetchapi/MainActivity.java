@@ -1,11 +1,13 @@
 package com.example.customerfetchapi;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.customerfetchapi.databinding.ActivityMainBinding;
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> listAdapter;
     Handler mainHandler = new Handler();
     ProgressDialog progressDialog;
+    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         initializeUserList();
         new fetchData().run();
 
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Customer customer = userList.get(position);
+            Intent intent = new Intent(this, CustomerDetailActivity.class);
+            intent.putExtra("item_name", customer.getName());
+            intent.putExtra("item_username", customer.getName());
+            intent.putExtra("item_email", customer.getName());
+            intent.putExtra("item_address", customer.getName());
+            intent.putExtra("item_avatar", customer.getName());
+
+            startActivity(intent);
+        });
     }
 
     private void initializeUserList() {
